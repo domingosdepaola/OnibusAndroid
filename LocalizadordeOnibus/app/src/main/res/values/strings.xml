@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Localizador de Onibus</string>
+    <string name="title_activity_onibus">Localizador de Onibus</string>
+    <string name="NumeroOnibus">Digite o numero do onibus</string>
+</resources>
