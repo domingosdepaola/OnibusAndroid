@@ -10,7 +10,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Onibus {
     public  String Ordem;
-    public Date DataHora;
+    public String DataHora;
     public String Linha;
     public double Latitude;
     public  double Longitude;

@@ -26,11 +26,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import domingosdepaola.localizadordeonibus.BO.Onibus;
@@ -227,7 +231,7 @@ public class OnibusActivity extends FragmentActivity implements AsyncResponse {
                         public void onFinish() {
 
                             Onibus onibus = (Onibus) markers.get(marker);
-                            String formattedDate = DateUtil.format(onibus.DataHora, "HH:mm:ss");
+                            String formattedDate = getFormatedDate(onibus.DataHora);
                             onibus.Endereco = locationUtil.getAddress(onibus.Latitude, onibus.Longitude);
                             ExibeAlerta(onibus.Linha + "- nº " + onibus.Ordem + " - hora:" + formattedDate, "Localização: " + (onibus.Endereco != null ? onibus.Endereco : ""), false);
                             // if (getOcorrenciaPinClicked() != null)
@@ -247,7 +251,17 @@ public class OnibusActivity extends FragmentActivity implements AsyncResponse {
 
         this.configMap();
     }
+    private String getFormatedDate(String dataRetornada){
+        String formattedDate = "";
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+            Date dataOnibus = format.parse(dataRetornada.replace('T',' '));
+            formattedDate = DateUtil.format(dataOnibus, "HH:mm:ss");
+        }catch (Exception ex){
 
+        }
+        return  formattedDate;
+    }
     public void moveCameraParaDialogo(float xPixel, float yPixel, Marker marker, GoogleMap.CancelableCallback cancelableCallback) {
 
         this.mMap.setInfoWindowAdapter(null);
@@ -396,11 +410,11 @@ public class OnibusActivity extends FragmentActivity implements AsyncResponse {
     private void AddMarkers(List<Onibus> lstOnibus) {
         for (int i = 0; i < lstOnibus.size(); i++) {
             Onibus onibus = lstOnibus.get(i);
-            String formattedDate = DateUtil.format(onibus.DataHora, "HH:mm:ss");
+            String formattedDate = getFormatedDate(onibus.DataHora);
             LatLng latLng = new LatLng(onibus.Latitude, onibus.Longitude);
 
 //            MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(ocorrencia.getResourceIcon()));
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(onibus.Linha + "-" + onibus.Ordem).snippet(formattedDate);
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(onibus.Linha + "-" + onibus.Ordem).snippet(formattedDate).icon(BitmapDescriptorFactory.fromResource(R.drawable.bus));
             Marker marker = this.mMap.addMarker(markerOptions);
             this.listMarkerCenter.add(marker);
             this.getMarkers().put(marker, onibus);
