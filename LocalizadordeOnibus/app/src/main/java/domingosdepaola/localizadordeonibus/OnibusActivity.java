@@ -74,6 +74,7 @@ public class OnibusActivity extends FragmentActivity implements AsyncResponse {
                 public void onClick(View v) {
                     mMap.clear();
                     setUpMap();
+                    
                     EditText txt = (EditText) findViewById(R.id.txtNumero);
                     String numeroLinha = txt.getText().toString();
                     try {
